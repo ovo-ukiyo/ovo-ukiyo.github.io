@@ -1,89 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>File Browser 安装及使用</title>
-    <url>/post/35356/</url>
-    <content><![CDATA[<p><img data-src="https://i.loli.net/2019/12/31/CkgUEKOvH1Wulfp.png" alt="File-Browser.png"></p>
-<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>File Browser 是一个基于 Web 的文件管理器。它可以使你随时随地的对某一目录下设备的文件进行基本的管理操作，如：创建、删除、移动、复制等。同时它还支持多个用户的管理，而且每个用户可以拥有自己可以访问的文件和权限等十分丰富的特性。</p>
-<a id="more"></a>
-<h2 id="安装及配置"><a href="#安装及配置" class="headerlink" title="安装及配置"></a>安装及配置</h2><p>File Browser 适用于全平台，任何操作系统都可以安装它，当然，我会以 Linux 为主。</p>
-<p>File Browser 在 Linux 的安装非常简单，只需要一条命令就可以搞定：<code>curl -fsSL https://filebrowser.xyz/get.sh | bash</code>，你也可以手动下载可执行文件进行安装：<a href="https://github.com/filebrowser/filebrowser/releases/latest">https://github.com/filebrowser/filebrowser/releases/latest</a></p>
-<p>当安装好之后，你并不能立即使用它，需要修改一些配置。<br>创建配置数据库：<code>filebrowser -d /etc/filebrowser.db config init</code></p>
-<p>设置监听地址：<code>filebrowser -d /etc/filebrowser.db config set --address 0.0.0.0</code></p>
-<p>设置监听端口：<code>filebrowser -d /etc/filebrowser.db config set --port 8088</code></p>
-<p>设置语言环境：<code>filebrowser -d /etc/filebrowser.db config set --locale zh-cn</code></p>
-<p>设置日志位置：<code>filebrowser -d /etc/filebrowser.db config set --log /var/log/filebrowser.log</code></p>
-<p>添加一个用户：<code>filebrowser -d /etc/filebrowser.db users add root password --perm.admin</code>，其中的<code>root</code>和<code>password</code>分别是用户名和密码，根据自己的需求更改。</p>
-<p>有关更多配置的选项，可以参考官方文档：<a href="https://docs.filebrowser.xyz/">https://docs.filebrowser.xyz/</a></p>
-<p>配置修改好以后，就可以启动 File Browser 了，使用<code>-d</code>参数指定配置数据库路径。示例：<code>filebrowser -d /etc/filebrowser.db</code></p>
-<p>启动成功就可以使用浏览器访问 File Browser 了，在浏览器输入 IP:端口，示例：<a href="http://192.168.1.1:8088">http://192.168.1.1:8088</a></p>
-<p>然后会看到 File Browser 的登陆界面，用刚刚创建的用户登陆。</p>
-<p>登陆以后，默认会看到 File Browser 运行目录下的文件，需要更改一下当前用户的文件夹位置。</p>
-<p>点击 [设置] → [用户设置] → 编辑用户 admin → 将目录范围改为你想要显示的文件夹，例如：/mnt → 修改完成后点击最下方的保存即可。</p>
-<p>这样，File Browser 的基本安装和配置就搞定了。</p>
-<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><h3 id="后台运行"><a href="#后台运行" class="headerlink" title="后台运行"></a>后台运行</h3><p>File Browser 默认是前台运行，想使其后台运行，有如下一些方法：</p>
-<p>第一种是 nohup 大法：</p>
-<p>运行：<code>nohup filebrowser -d /etc/filebrowser.db &gt;/dev/null 2&gt;&amp;1 &amp;</code></p>
-<p>停止运行：<code>kill -9 $(pidof filebrowser)</code></p>
-<p>开机启动：<code>sed -i &#39;/exit 0/i\nohup filebrowser -d \/etc\/filebrowser.db &gt;\/dev\/null 2&gt;&amp;1 &amp;&#39; /etc/rc.local</code></p>
-<p>取消开机启动：<code>sed -i &#39;/nohup filebrowser -d \/etc\/filebrowser.db &gt;\/dev\/null 2&gt;&amp;1 &amp;/d&#39; /etc/rc.local</code></p>
-<p>第二种是 systemd 大法：</p>
-<p>首先下载 File Browser 的 service 文件：<code>curl https://raw.githubusercontent.com/zhfe981206/filebrowser/master/filebrowser.service -O /lib/systemd/system/filebrowser.service</code></p>
-<p>如果你的运行命令不是<code>/usr/local/bin/filebrowser -d /etc/filebrowser.db</code>，需要对 service 文件进行修改，将文件的 ExecStart 改为你的运行命令，更改完成后需要输入<code>systemctl daemon-reload</code></p>
-<p>运行：<code>systemctl start filebrowser.service</code></p>
-<p>停止运行：<code>systemctl stop filebrowser.service</code></p>
-<p>开机启动：<code>systemctl enable filebrowser.service</code></p>
-<p>取消开机启动：<code>systemctl disable filebrowser.service</code></p>
-<p>查看运行状态：<code>systemctl status filebrowser.service</code></p>
-<p>我推荐使用 systemd 的方法来后台运行，当然，前提是你所使用的操作系统支持 systemd。</p>
-<h3 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h3><p>File Browser 2.0 起开始内建 HTTPS 支持，只需要配置 SSL 证书即可。<br>配置 SSL：<code>filebrowser -d /etc/filebrowser.db config set --cert example.com.crt --key example.com.key</code>，其中<code>example.com.crt</code>和<code>example.com.key</code>分别是 SSL 证书和密钥路径，根据自身情况进行更改。配置完 SSL 后，只可以使用 HTTPS 访问，不可以使用 HTTP。</p>
-<p>取消 SSL：<code>filebrowser -d /etc/filebrowser.db config set --cert &quot;&quot; --key &quot;&quot;</code></p>
-<p>在这里，我比较建议直接使用Caddy，Caddy一个开源、支持 HTTP/2 的 Web 服务器，它的一个显著特点就是默认启用 HTTPS 访问，会自己申请 SSL 证书，同时支持大量的插件，File Browser 就可以作为其插件运行。同时，通过下载相应的插件以及配置环境变量可以自动实现ssl证书的申请。<br>比如我的域名套了一层cloudflare，我便可以下载对应的插件，实现自动申请ssl证书。</p>
-<h3 id="外网访问"><a href="#外网访问" class="headerlink" title="外网访问"></a>外网访问</h3><p>每个人的情况不同，外网访问的配置方法也不一样。</p>
-<p>对于vps等，一般都会分配公网 IP 地址，不管是 v4 还是 v6，在防火墙上打开相应的端口以及设置好端口转发即可。对于一些服务器内使用了防火墙的（iptables，firewalld），不仅需要打开服务提供商的防火墙上对应的端口以及设置好端口转发，还需设置服务器上的防火墙。</p>
-<p>如果你没有公网IP地址，那么你想要外网访问可能就需要内网穿透了。</p>
-<h2 id="原文地址：File-Browser-安装及使用"><a href="#原文地址：File-Browser-安装及使用" class="headerlink" title="原文地址：File Browser 安装及使用"></a>原文地址：<a href="https://www.mivm.cn/filebrowser/">File Browser 安装及使用</a></h2>]]></content>
-      <categories>
-        <category>linux相关</category>
-      </categories>
-      <tags>
-        <tag>File Browser</tag>
-        <tag>linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>aria2一键安装管理</title>
-    <url>/post/55765/</url>
-    <content><![CDATA[<h3 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h3><p>在安装aria2的过程中，在github上发现了一个一键安装管理脚本，感觉蛮好用的分享一下</p>
-<h3 id="系统要求"><a href="#系统要求" class="headerlink" title="系统要求"></a>系统要求</h3><p>CentOS 6+ / Debian 6+ /Ubuntu 14.04+</p>
-<a id="more"></a>
-<h3 id="下载安装"><a href="#下载安装" class="headerlink" title="下载安装"></a>下载安装</h3><p>执行下面代码下载并运行脚本，出现脚本操作菜单输入 <strong>1</strong> 开始安装</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">wget -N https://git.io/aria2.sh &amp;&amp; chmod +x aria2.sh &amp;&amp; bash aria2.sh</span><br></pre></td></tr></table></figure>
-
-<h3 id="使用说明"><a href="#使用说明" class="headerlink" title="使用说明"></a>使用说明</h3><ol>
-<li><p>进入下载脚本的目录并运行脚本</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">./aria2.sh</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>选择你要执行的选项</p>
-<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">Aria2 一键安装管理脚本 [v2.0.5]</span><br><span class="line">  -- P3TERX.COM --</span><br><span class="line"></span><br><span class="line">  0. 升级脚本</span><br><span class="line">————————————</span><br><span class="line">  1. 安装 Aria2</span><br><span class="line">  2. 更新 Aria2</span><br><span class="line">  3. 卸载 Aria2</span><br><span class="line">————————————</span><br><span class="line">  4. 启动 Aria2</span><br><span class="line">  5. 停止 Aria2</span><br><span class="line">  6. 重启 Aria2</span><br><span class="line">————————————</span><br><span class="line">  7. 修改 配置</span><br><span class="line">  8. 查看 配置</span><br><span class="line">  9. 查看 日志</span><br><span class="line">10. 清空 日志</span><br><span class="line">————————————</span><br><span class="line">11. 手动更新 BT-Tracker</span><br><span class="line">12. 自动更新 BT-Tracker</span><br><span class="line">————————————</span><br><span class="line"></span><br><span class="line">当前状态: 已安装 并 已启动</span><br><span class="line"></span><br><span class="line">请输入数字 [0-12]:</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<h3 id="其他操作"><a href="#其他操作" class="headerlink" title="其他操作"></a>其他操作</h3><p>启动:<code>/etc/init.d/aria2 start</code><br>停止:<code>/etc/init.d/aria2 stop</code><br>重启:<code>/etc/init.d/aria2 restart</code><br>查看状态:<code>/etc/init.d/aria2 status</code><br>配置文件:<code>/root/.aria2/aria2.conf</code>  (配置文件中包含中文注释，可以自行更改)<br>令牌密匙:随机生成(可以自行更改7.修改配置文件)<br>默认下载目录:<code>/root/Download</code></p>
-<h3 id="附加功能"><a href="#附加功能" class="headerlink" title="附加功能"></a>附加功能</h3><p>整合了<a href="https://p3terx.com/go/aHR0cHM6Ly9naXRodWIuY29tL1AzVEVSWC9hcmlhMl9wZXJmZWN0X2NvbmZpZw==">Aria2</a>完美配置,在安装的过程中会下载这套配置方案，包含了配置文件、附加功能脚本等文件，用于实现 Aria2 功能的增强和扩展。</p>
-<p>增强功能：<br>提升BT下载率和下载速度<br>下载完成删除残留的<code>.aria2</code>后缀名文件<br>下载错误或取消下载删除未完成的文件</p>
-<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><p>在执行安装脚本前如需修改aria2的安装位置，请提前对脚本编辑进行修改。</p>
-<h3 id="有关链接"><a href="#有关链接" class="headerlink" title="有关链接"></a>有关链接</h3><p><a href="https://github.com/Neilpang/acme.sh">证书申请acme.sh脚本 github项目</a><br><a href="https://github.com/filebrowser/filebrowser">filebrowser github项目</a><br><a href="https://caddyserver.com/">caddyserver官网</a></p>
-<h3 id="原文地址：Aria2-一键安装管理脚本"><a href="#原文地址：Aria2-一键安装管理脚本" class="headerlink" title="原文地址：Aria2 一键安装管理脚本"></a>原文地址：<a href="https://p3terx.com/archives/aria2-oneclick-installation-management-script.html">Aria2 一键安装管理脚本</a></h3>]]></content>
-      <categories>
-        <category>linux相关</category>
-      </categories>
-      <tags>
-        <tag>linux</tag>
-        <tag>aria2</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>wsl2配置启用systemd一键脚本</title>
     <url>/post/9214/</url>
     <content><![CDATA[<h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>这段时间尝试使用了windows的linux子系统功能，自行配置了systemd，发现步骤较为繁琐，恰巧有个大佬写了个自动配置的一键脚本，在这里介绍一下。</p>
@@ -126,64 +43,6 @@
       <tags>
         <tag>wsl</tag>
         <tag>wiindows</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/post/16107/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<a id="more"></a>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/deployment.html">Deployment</a></p>
-]]></content>
-  </entry>
-  <entry>
-    <title>Linux一键安装Aria2 + YAAW实现离线下载</title>
-    <url>/post/47359/</url>
-    <content><![CDATA[<h3 id="说明"><a href="#说明" class="headerlink" title="说明"></a><strong>说明</strong></h3><p>这段时间在搭建aria2的过程中看到了 小z大佬 的一键脚本，觉得比较方便就转载一下。</p>
-<p>脚本内置的yaaw管理面板如果觉得不好用的话可以自行更换。</p>
-<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a><strong>简介</strong></h2><p>aria2是一个轻量级的多协议和多源命令行 下载工具。它支持HTTP / HTTPS，FTP，SFTP， BitTorrent和Metalink。aria2可以通过内置的 JSON-RPC和XML-RPC接口进行操作。</p>
-<p>YAAW则是一个管理aria2的WEB接口，两者结合轻松实现离线下载，为了简化流程，写了一个一键脚本，方便部署。</p>
-<a id="more"></a>
-<h2 id="功能"><a href="#功能" class="headerlink" title="功能"></a><strong>功能</strong></h2><ul>
-<li>支持多种不同Linux系统</li>
-<li>一键安装Aria2 + Caddy + YAAW</li>
-<li>使用FileFileManager作为文件管理器</li>
-<li>离线下载 + 视频在线播放</li>
-</ul>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a><strong>安装</strong></h2><p>直接复制下面的命令，一行一个，根据提示完成操作。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#Centos用户</span></span><br><span class="line">yum -y install wget unzip</span><br><span class="line"><span class="comment">#如果是Debian or Ubuntu用户</span></span><br><span class="line">apt-get install -y wget unzip</span><br><span class="line"><span class="comment">#下面的命令通用，直接复制</span></span><br><span class="line">wget https://github.com/helloxz/aria2/archive/master.zip</span><br><span class="line">unzip master.zip &amp;&amp; <span class="built_in">cd</span> aria2-master &amp;&amp; chmod u+x *.sh &amp;&amp; ./install_aria2.sh</span><br></pre></td></tr></table></figure>
-
-<p><strong>安装过程中，按要求输入用户名、密码及Aria2授权令牌。</strong><br><strong>注意保存安装完成屏幕输出的账号，密码，rpc地址</strong></p>
-<h2 id="YAAW使用"><a href="#YAAW使用" class="headerlink" title="YAAW使用"></a><strong>YAAW使用</strong></h2><p>安装完成后输入<a href="http://IP:6080">http://IP:6080</a> 进行访问，输入您刚刚设置的用户名、密码，就可以看到YAAW啦。</p>
-<p>点击右上角“Setting”按钮，在JSON-RPC Path那里输入安装完后显示的RPC地址</p>
-<h2 id="相关命令"><a href="#相关命令" class="headerlink" title="相关命令"></a><strong>相关命令</strong></h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#启动</span></span><br><span class="line">/data/aria2/aria2.sh start</span><br><span class="line"><span class="comment">#停止</span></span><br><span class="line">/data/aria2/aria2.sh stop</span><br><span class="line"><span class="comment">#重启</span></span><br><span class="line">/data/aria2/aria2.sh restart</span><br><span class="line"><span class="comment">#卸载</span></span><br><span class="line"><span class="built_in">cd</span> aria2-master &amp;&amp; ./uninstall.sh</span><br><span class="line"><span class="comment">#Caddy server配置文件</span></span><br><span class="line">/data/aria2/caddy.conf</span><br><span class="line"><span class="comment">#Aria2配置文件</span></span><br><span class="line">/data/aria2/aria2.conf</span><br><span class="line"><span class="comment">#离线下载目录</span></span><br><span class="line">/data/aria2/download</span><br></pre></td></tr></table></figure>
-
-<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a><strong>常见问题</strong></h2><figure class="highlight text"><table><tr><td class="code"><pre><span class="line"># YAAW提示Error: Internal server error 错误？</span><br><span class="line">原因一：RPC地址错误，安装完成后会提示RPC地址，请确保填写正确。</span><br><span class="line">原因二：输入netstat -apn|grep &#x27;aria2c&#x27;查看进程，如果没有任何信息，可以确定Aria2服务未启动，输入命令nohup aria2c --conf-path=/data/aria2/aria2.conf &gt; /data/aria2/aria2.log 2&gt;&amp;1 &amp;重新启动服务，如果依然不行，请查看错误日志/data/aria2/aria2.log</span><br><span class="line">原因三：防火墙未放行6800端口，请自行放行下端口或关闭服务器防火墙。</span><br><span class="line"></span><br><span class="line"># 重启了服务器就打不开了？</span><br><span class="line">脚本并未设置开机启动，重启服务器后请输入/data/aria2/aria2.sh start来运行服务。</span><br><span class="line"></span><br><span class="line"># Debian/Ubuntu用户，提示安装成功，但是打不开？</span><br><span class="line">Debian/Ubuntu并未自动放行端口，请放行6080/6800两个端口，或者直接关闭防火墙，如果您的服务商支持安全组还需要额外检查。</span><br></pre></td></tr></table></figure>
-
-<h2 id="友情提示"><a href="#友情提示" class="headerlink" title="友情提示"></a><strong>友情提示</strong></h2><p>国外大部分VPS商家禁止版权、BT等内容，离线下载请合理使用，若违反商家TOS导致服务器被关闭的，不承担任何责任。</p>
-<ul>
-<li>勿下载版权内容（如视频、音乐等）</li>
-<li>勿长时间将带宽跑满</li>
-<li>不要下载BT等内容</li>
-</ul>
-<h3 id="原文地址：Linux一键安装Aria2-YAAW实现离线下载"><a href="#原文地址：Linux一键安装Aria2-YAAW实现离线下载" class="headerlink" title="原文地址：Linux一键安装Aria2 + YAAW实现离线下载"></a><strong>原文地址</strong>：<a href="https://www.xiaoz.me/archives/9694">Linux一键安装Aria2 + YAAW实现离线下载</a></h3>]]></content>
-      <categories>
-        <category>linux相关</category>
-      </categories>
-      <tags>
-        <tag>linux</tag>
-        <tag>aria2</tag>
       </tags>
   </entry>
   <entry>
@@ -283,5 +142,190 @@
         <tag>linux</tag>
         <tag>aria2</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>File Browser 安装及使用</title>
+    <url>/post/35356/</url>
+    <content><![CDATA[<p><img data-src="https://i.loli.net/2019/12/31/CkgUEKOvH1Wulfp.png" alt="File-Browser.png"></p>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>File Browser 是一个基于 Web 的文件管理器。它可以使你随时随地的对某一目录下设备的文件进行基本的管理操作，如：创建、删除、移动、复制等。同时它还支持多个用户的管理，而且每个用户可以拥有自己可以访问的文件和权限等十分丰富的特性。</p>
+<a id="more"></a>
+<h2 id="安装及配置"><a href="#安装及配置" class="headerlink" title="安装及配置"></a>安装及配置</h2><p>File Browser 适用于全平台，任何操作系统都可以安装它，当然，我会以 Linux 为主。</p>
+<p>File Browser 在 Linux 的安装非常简单，只需要一条命令就可以搞定：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">curl -fsSL https://raw.githubusercontent.com/filebrowser/get/master/get.sh | bash</span><br></pre></td></tr></table></figure>
+
+<p>当安装好之后，你并不能立即使用它，需要修改一些配置。<br>创建配置数据库：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">filebrowser -d /etc/filebrowser.db config init</span><br></pre></td></tr></table></figure>
+
+<p>设置监听地址：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">filebrowser -d /etc/filebrowser.db config <span class="built_in">set</span> --address 0.0.0.0</span><br></pre></td></tr></table></figure>
+
+<p>设置监听端口：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">filebrowser -d /etc/filebrowser.db config <span class="built_in">set</span> --port 8088</span><br></pre></td></tr></table></figure>
+
+<p>设置语言环境：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">filebrowser -d /etc/filebrowser.db config <span class="built_in">set</span> --locale zh-cn</span><br></pre></td></tr></table></figure>
+
+<p>设置日志位置：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">filebrowser -d /etc/filebrowser.db config <span class="built_in">set</span> --<span class="built_in">log</span> /var/<span class="built_in">log</span>/filebrowser.log</span><br></pre></td></tr></table></figure>
+
+<p>添加一个用户：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">filebrowser -d /etc/filebrowser.db users add root password --perm.admin</span><br></pre></td></tr></table></figure>
+<p>其中的<code>root</code>和<code>password</code>分别是用户名和密码，根据自己的需求更改。</p>
+<p>有关更多配置的选项，可以参考官方文档：<a href="https://filebrowser.org/">https://filebrowser.org/</a></p>
+<p>配置修改好以后，就可以启动 File Browser 了，使用<code>-d</code>参数指定配置数据库路径。示例：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">filebrowser -d /etc/filebrowser.db</span><br></pre></td></tr></table></figure>
+
+<p>启动成功就可以使用浏览器访问 File Browser 了，在浏览器输入 IP:端口，示例：<a href="http://192.168.1.1:8088">http://192.168.1.1:8088</a></p>
+<p>然后会看到 File Browser 的登陆界面，用刚刚创建的用户登陆。</p>
+<p>登陆以后，默认会看到 File Browser 运行目录下的文件，需要更改一下当前用户的文件夹位置。</p>
+<p>点击 [设置] → [用户设置] → 编辑用户 admin → 将目录范围改为你想要显示的文件夹，例如：/mnt → 修改完成后点击最下方的保存即可。</p>
+<p>这样，File Browser 的基本安装和配置就搞定了。</p>
+<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><h3 id="后台运行"><a href="#后台运行" class="headerlink" title="后台运行"></a>后台运行</h3><p>File Browser 默认是前台运行，想使其后台运行，有如下一些方法：</p>
+<h4 id="nohup-大法："><a href="#nohup-大法：" class="headerlink" title="nohup 大法："></a>nohup 大法：</h4><p>运行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">nohup filebrowser -d /etc/filebrowser.db &gt;/dev/null 2&gt;&amp;1 &amp;</span><br></pre></td></tr></table></figure>
+
+<p>停止运行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">kill</span> -9 $(pidof filebrowser)</span><br></pre></td></tr></table></figure>
+
+<p>开机启动：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sed -i <span class="string">&#x27;/exit 0/i\nohup filebrowser -d \/etc\/filebrowser.db &gt;\/dev\/null 2&gt;&amp;1 &amp;&#x27;</span> /etc/rc.local</span><br></pre></td></tr></table></figure>
+
+<p>取消开机启动：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sed -i <span class="string">&#x27;/nohup filebrowser -d \/etc\/filebrowser.db &gt;\/dev\/null 2&gt;&amp;1 &amp;/d&#x27;</span> /etc/rc.local</span><br></pre></td></tr></table></figure>
+
+<h4 id="systemd-大法："><a href="#systemd-大法：" class="headerlink" title="systemd 大法："></a>systemd 大法：</h4><p>首先下载 File Browser 的 service 文件：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">curl https://raw.githubusercontent.com/zhfe981206/filebrowser/master/filebrowser.service -O /lib/systemd/system/filebrowser.service</span><br></pre></td></tr></table></figure>
+
+<p>如果你的运行命令不是</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">/usr/<span class="built_in">local</span>/bin/filebrowser -d /etc/filebrowser.db</span><br></pre></td></tr></table></figure>
+<p>则需要对 service 文件进行修改，将文件的 ExecStart 改为你的运行命令，更改完成后需要输入</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">systemctl daemon-reload</span><br></pre></td></tr></table></figure>
+
+<p>运行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">systemctl start filebrowser.service</span><br></pre></td></tr></table></figure>
+
+<p>停止运行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">systemctl stop filebrowser.service</span><br></pre></td></tr></table></figure>
+
+<p>开机启动：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">systemctl <span class="built_in">enable</span> filebrowser.service</span><br></pre></td></tr></table></figure>
+
+<p>取消开机启动：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">systemctl <span class="built_in">disable</span> filebrowser.service</span><br></pre></td></tr></table></figure>
+
+<p>查看运行状态：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">systemctl status filebrowser.service</span><br></pre></td></tr></table></figure>
+<h4 id="screen-大法"><a href="#screen-大法" class="headerlink" title="screen 大法"></a>screen 大法</h4><p>使用screen，如果没有请使用包管理器安装。<br>使用screen命令</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">screen -S filebrowser</span><br></pre></td></tr></table></figure>
+<p>创建一个screen会话，在该会话里运行filebrowser，启动后使用<code>Ctrl+a,d</code>离开会话。</p>
+<p>我推荐使用 systemd 的方法来后台运行，当然，前提是你所使用的操作系统支持 systemd，其次推荐使用screen的方法，简单粗暴。</p>
+<h3 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h3><p>File Browser 2.0 起开始内建 HTTPS 支持，只需要配置 SSL 证书即可。<br>配置SSL：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">filebrowser -d /etc/filebrowser.db config <span class="built_in">set</span> --cert example.com.crt --key example.com.key</span><br></pre></td></tr></table></figure>
+<p>其中<code>example.com.crt</code>和<code>example.com.key</code>分别是 SSL 证书和密钥路径，根据自身情况进行更改。配置完 SSL 后，只可以使用 HTTPS 访问，不可以使用 HTTP。</p>
+<p>取消 SSL：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">filebrowser -d /etc/filebrowser.db config <span class="built_in">set</span> --cert <span class="string">&quot;&quot;</span> --key <span class="string">&quot;&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>在这里，我比较建议直接使用Caddy，Caddy一个开源、支持 HTTP/2 的 Web 服务器，它的一个显著特点就是默认启用 HTTPS 访问，会自己申请 SSL 证书，同时支持大量的插件，File Browser 就可以作为其插件运行。同时，通过下载相应的插件以及配置环境变量可以自动实现ssl证书的申请。<br>比如我的域名套了一层cloudflare，我便可以下载对应的插件，实现自动申请ssl证书。</p>
+<h3 id="外网访问"><a href="#外网访问" class="headerlink" title="外网访问"></a>外网访问</h3><p>每个人的情况不同，外网访问的配置方法也不一样。</p>
+<p>对于vps等，一般都会分配公网 IP 地址，不管是 v4 还是 v6，在防火墙上打开相应的端口以及设置好端口转发即可。对于一些服务器内使用了防火墙的（iptables，firewalld），不仅需要打开服务提供商的防火墙上对应的端口以及设置好端口转发，还需设置服务器上的防火墙。</p>
+<p>如果你没有公网IP地址，那么你想要外网访问可能就需要内网穿透了。</p>
+<h2 id="原文地址：File-Browser-安装及使用"><a href="#原文地址：File-Browser-安装及使用" class="headerlink" title="原文地址：File Browser 安装及使用"></a>原文地址：<a href="https://www.mivm.cn/filebrowser/">File Browser 安装及使用</a></h2>]]></content>
+      <categories>
+        <category>linux相关</category>
+      </categories>
+      <tags>
+        <tag>File Browser</tag>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>aria2一键安装管理</title>
+    <url>/post/55765/</url>
+    <content><![CDATA[<h3 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h3><p>在安装aria2的过程中，在github上发现了一个一键安装管理脚本，感觉蛮好用的分享一下</p>
+<h3 id="系统要求"><a href="#系统要求" class="headerlink" title="系统要求"></a>系统要求</h3><p>CentOS 6+ / Debian 6+ /Ubuntu 14.04+</p>
+<a id="more"></a>
+<h3 id="下载安装"><a href="#下载安装" class="headerlink" title="下载安装"></a>下载安装</h3><p>执行下面代码下载并运行脚本，出现脚本操作菜单输入 <strong>1</strong> 开始安装</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">wget -N https://git.io/aria2.sh &amp;&amp; chmod +x aria2.sh &amp;&amp; bash aria2.sh</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用说明"><a href="#使用说明" class="headerlink" title="使用说明"></a>使用说明</h3><ol>
+<li><p>进入下载脚本的目录并运行脚本</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">./aria2.sh</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>选择你要执行的选项</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">Aria2 一键安装管理脚本 [v2.0.5]</span><br><span class="line">  -- P3TERX.COM --</span><br><span class="line"></span><br><span class="line">  0. 升级脚本</span><br><span class="line">————————————</span><br><span class="line">  1. 安装 Aria2</span><br><span class="line">  2. 更新 Aria2</span><br><span class="line">  3. 卸载 Aria2</span><br><span class="line">————————————</span><br><span class="line">  4. 启动 Aria2</span><br><span class="line">  5. 停止 Aria2</span><br><span class="line">  6. 重启 Aria2</span><br><span class="line">————————————</span><br><span class="line">  7. 修改 配置</span><br><span class="line">  8. 查看 配置</span><br><span class="line">  9. 查看 日志</span><br><span class="line">10. 清空 日志</span><br><span class="line">————————————</span><br><span class="line">11. 手动更新 BT-Tracker</span><br><span class="line">12. 自动更新 BT-Tracker</span><br><span class="line">————————————</span><br><span class="line"></span><br><span class="line">当前状态: 已安装 并 已启动</span><br><span class="line"></span><br><span class="line">请输入数字 [0-12]:</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h3 id="其他操作"><a href="#其他操作" class="headerlink" title="其他操作"></a>其他操作</h3><p>启动:<code>/etc/init.d/aria2 start</code><br>停止:<code>/etc/init.d/aria2 stop</code><br>重启:<code>/etc/init.d/aria2 restart</code><br>查看状态:<code>/etc/init.d/aria2 status</code><br>配置文件:<code>/root/.aria2/aria2.conf</code>  (配置文件中包含中文注释，可以自行更改)<br>令牌密匙:随机生成(可以自行更改7.修改配置文件)<br>默认下载目录:<code>/root/Download</code></p>
+<h3 id="附加功能"><a href="#附加功能" class="headerlink" title="附加功能"></a>附加功能</h3><p>整合了<a href="https://p3terx.com/go/aHR0cHM6Ly9naXRodWIuY29tL1AzVEVSWC9hcmlhMl9wZXJmZWN0X2NvbmZpZw==">Aria2</a>完美配置,在安装的过程中会下载这套配置方案，包含了配置文件、附加功能脚本等文件，用于实现 Aria2 功能的增强和扩展。</p>
+<p>增强功能：<br>提升BT下载率和下载速度<br>下载完成删除残留的<code>.aria2</code>后缀名文件<br>下载错误或取消下载删除未完成的文件</p>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><p>在执行安装脚本前如需修改aria2的安装位置，请提前对脚本编辑进行修改。</p>
+<h3 id="有关链接"><a href="#有关链接" class="headerlink" title="有关链接"></a>有关链接</h3><p><a href="https://github.com/Neilpang/acme.sh">证书申请acme.sh脚本 github项目</a><br><a href="https://github.com/filebrowser/filebrowser">filebrowser github项目</a><br><a href="https://caddyserver.com/">caddyserver官网</a></p>
+<h3 id="原文地址：Aria2-一键安装管理脚本"><a href="#原文地址：Aria2-一键安装管理脚本" class="headerlink" title="原文地址：Aria2 一键安装管理脚本"></a>原文地址：<a href="https://p3terx.com/archives/aria2-oneclick-installation-management-script.html">Aria2 一键安装管理脚本</a></h3>]]></content>
+      <categories>
+        <category>linux相关</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+        <tag>aria2</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux一键安装Aria2 + YAAW实现离线下载</title>
+    <url>/post/47359/</url>
+    <content><![CDATA[<h3 id="说明"><a href="#说明" class="headerlink" title="说明"></a><strong>说明</strong></h3><p>这段时间在搭建aria2的过程中看到了 小z大佬 的一键脚本，觉得比较方便就转载一下。</p>
+<p>脚本内置的yaaw管理面板如果觉得不好用的话可以自行更换。</p>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a><strong>简介</strong></h2><p>aria2是一个轻量级的多协议和多源命令行 下载工具。它支持HTTP / HTTPS，FTP，SFTP， BitTorrent和Metalink。aria2可以通过内置的 JSON-RPC和XML-RPC接口进行操作。</p>
+<p>YAAW则是一个管理aria2的WEB接口，两者结合轻松实现离线下载，为了简化流程，写了一个一键脚本，方便部署。</p>
+<a id="more"></a>
+<h2 id="功能"><a href="#功能" class="headerlink" title="功能"></a><strong>功能</strong></h2><ul>
+<li>支持多种不同Linux系统</li>
+<li>一键安装Aria2 + Caddy + YAAW</li>
+<li>使用FileFileManager作为文件管理器</li>
+<li>离线下载 + 视频在线播放</li>
+</ul>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a><strong>安装</strong></h2><p>直接复制下面的命令，一行一个，根据提示完成操作。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#Centos用户</span></span><br><span class="line">yum -y install wget unzip</span><br><span class="line"><span class="comment">#如果是Debian or Ubuntu用户</span></span><br><span class="line">apt-get install -y wget unzip</span><br><span class="line"><span class="comment">#下面的命令通用，直接复制</span></span><br><span class="line">wget https://github.com/helloxz/aria2/archive/master.zip</span><br><span class="line">unzip master.zip &amp;&amp; <span class="built_in">cd</span> aria2-master &amp;&amp; chmod u+x *.sh &amp;&amp; ./install_aria2.sh</span><br></pre></td></tr></table></figure>
+
+<p><strong>安装过程中，按要求输入用户名、密码及Aria2授权令牌。</strong><br><strong>注意保存安装完成屏幕输出的账号，密码，rpc地址</strong></p>
+<h2 id="YAAW使用"><a href="#YAAW使用" class="headerlink" title="YAAW使用"></a><strong>YAAW使用</strong></h2><p>安装完成后输入<a href="http://IP:6080">http://IP:6080</a> 进行访问，输入您刚刚设置的用户名、密码，就可以看到YAAW啦。</p>
+<p>点击右上角“Setting”按钮，在JSON-RPC Path那里输入安装完后显示的RPC地址</p>
+<h2 id="相关命令"><a href="#相关命令" class="headerlink" title="相关命令"></a><strong>相关命令</strong></h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#启动</span></span><br><span class="line">/data/aria2/aria2.sh start</span><br><span class="line"><span class="comment">#停止</span></span><br><span class="line">/data/aria2/aria2.sh stop</span><br><span class="line"><span class="comment">#重启</span></span><br><span class="line">/data/aria2/aria2.sh restart</span><br><span class="line"><span class="comment">#卸载</span></span><br><span class="line"><span class="built_in">cd</span> aria2-master &amp;&amp; ./uninstall.sh</span><br><span class="line"><span class="comment">#Caddy server配置文件</span></span><br><span class="line">/data/aria2/caddy.conf</span><br><span class="line"><span class="comment">#Aria2配置文件</span></span><br><span class="line">/data/aria2/aria2.conf</span><br><span class="line"><span class="comment">#离线下载目录</span></span><br><span class="line">/data/aria2/download</span><br></pre></td></tr></table></figure>
+
+<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a><strong>常见问题</strong></h2><figure class="highlight text"><table><tr><td class="code"><pre><span class="line"># YAAW提示Error: Internal server error 错误？</span><br><span class="line">原因一：RPC地址错误，安装完成后会提示RPC地址，请确保填写正确。</span><br><span class="line">原因二：输入netstat -apn|grep &#x27;aria2c&#x27;查看进程，如果没有任何信息，可以确定Aria2服务未启动，输入命令nohup aria2c --conf-path=/data/aria2/aria2.conf &gt; /data/aria2/aria2.log 2&gt;&amp;1 &amp;重新启动服务，如果依然不行，请查看错误日志/data/aria2/aria2.log</span><br><span class="line">原因三：防火墙未放行6800端口，请自行放行下端口或关闭服务器防火墙。</span><br><span class="line"></span><br><span class="line"># 重启了服务器就打不开了？</span><br><span class="line">脚本并未设置开机启动，重启服务器后请输入/data/aria2/aria2.sh start来运行服务。</span><br><span class="line"></span><br><span class="line"># Debian/Ubuntu用户，提示安装成功，但是打不开？</span><br><span class="line">Debian/Ubuntu并未自动放行端口，请放行6080/6800两个端口，或者直接关闭防火墙，如果您的服务商支持安全组还需要额外检查。</span><br></pre></td></tr></table></figure>
+
+<h2 id="友情提示"><a href="#友情提示" class="headerlink" title="友情提示"></a><strong>友情提示</strong></h2><p>国外大部分VPS商家禁止版权、BT等内容，离线下载请合理使用，若违反商家TOS导致服务器被关闭的，不承担任何责任。</p>
+<ul>
+<li>勿下载版权内容（如视频、音乐等）</li>
+<li>勿长时间将带宽跑满</li>
+<li>不要下载BT等内容</li>
+</ul>
+<h3 id="原文地址：Linux一键安装Aria2-YAAW实现离线下载"><a href="#原文地址：Linux一键安装Aria2-YAAW实现离线下载" class="headerlink" title="原文地址：Linux一键安装Aria2 + YAAW实现离线下载"></a><strong>原文地址</strong>：<a href="https://www.xiaoz.me/archives/9694">Linux一键安装Aria2 + YAAW实现离线下载</a></h3>]]></content>
+      <categories>
+        <category>linux相关</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+        <tag>aria2</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/post/16107/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<a id="more"></a>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/deployment.html">Deployment</a></p>
+]]></content>
   </entry>
 </search>
