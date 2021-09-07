@@ -1,6 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>校园网使用ipv6配置过程</title>
+    <url>/post/38835/</url>
+    <content><![CDATA[<h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>IPv6设计之初由于地址资源相较IPv4有极大地增多，因此并未考虑NAT(网络地址转换)，但由于部分学校的校园网只分发了一个/128的IPv6地址，导致路由器下设备无法使用IPv6。</p>
+<p>本篇教程参考自网络，非原创，部分内容来自HEU贴吧。</p>
+<a id="more"></a>
+<h2 id="硬件要求"><a href="#硬件要求" class="headerlink" title="硬件要求"></a>硬件要求</h2><ul>
+<li>校园网已开通</li>
+<li>可刷h大版Padavan的路由器(斐讯k2p测试通过)</li>
+<li>支持IPv6的电脑或手机</li>
+</ul>
+<h2 id="路由器设置"><a href="#路由器设置" class="headerlink" title="路由器设置"></a>路由器设置</h2><h3 id="刷机"><a href="#刷机" class="headerlink" title="刷机"></a>刷机</h3><p>刷机方案根据路由器不同，各有差异，请自行查找。</p>
+<p>使用固件为h大版的Padavan</p>
+<h3 id="连接互联网"><a href="#连接互联网" class="headerlink" title="连接互联网"></a>连接互联网</h3><ol>
+<li>登录路由器管理页面</li>
+<li>点击左侧导航栏<code>高级设置-&gt;外部网络（WAN）</code></li>
+<li>按照网络实际情况配置界面右侧</li>
+</ol>
+<h3 id="添加脚本"><a href="#添加脚本" class="headerlink" title="添加脚本"></a>添加脚本</h3><ol>
+<li>进入<code>高级设置-&gt;自定义设置-&gt;脚本-&gt;路由器启动后执行</code>脚本中添加如下脚本：<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">###启动NAPT66模块</span></span><br><span class="line">insmod /lib/modules/$(uname -r)/kernel/net/napt66/napt66.ko wan_if=ppp0</span><br></pre></td></tr></table></figure></li>
+<li>进入<code>高级设置-&gt;自定义设置-&gt;脚本-&gt;在防火墙规则 (Emong&#39;s Qos) 启动后执行</code>脚本中添加如下脚本：<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">###NAPT66 所需要的防火墙政策</span></span><br><span class="line">ip6tables -F</span><br><span class="line">ip6tables -P INPUT ACCEPT</span><br><span class="line">ip6tables -P FORWARD ACCEPT</span><br><span class="line">ip6tables -P OUTPUT ACCEPT</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h3 id="IPv6配置"><a href="#IPv6配置" class="headerlink" title="IPv6配置"></a>IPv6配置</h3><p>进入<code>高级设置-&gt;外部网络（WAN）-&gt;IPv6设置</code>，如下图进行配置<img data-src="https://i.loli.net/2021/09/07/ImFnOsVDze9h3fl.png" alt="IPv6.png"></p>
+<h3 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h3><p>重启路由，稍等片刻即可使用。可能需要重置计算机的网卡设置</p>
+<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><p>路由器获取IPv6地址获取可能有延迟，显示</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">get_ip6_by_name() failed.</span><br></pre></td></tr></table></figure>
+<p>不要担心，过一段时间后即可获取到IPv6地址，获取成功如下<img data-src="https://i.loli.net/2021/09/07/qSNo9ThfpUM7QWa.png" alt="注意.png"></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://blog.xyenon.bid/%E8%B7%AF%E7%94%B1%E5%99%A8%E8%BD%AC%E5%8F%91-IPv6-%E9%85%8D%E7%BD%AE%E6%96%B9%E6%B3%95/">XYenon大佬的IPv6配置方法</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>校园网相关</category>
+      </categories>
+      <tags>
+        <tag>路由器</tag>
+        <tag>ipv6</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>wsl2配置启用systemd一键脚本</title>
     <url>/post/9214/</url>
     <content><![CDATA[<h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>这段时间尝试使用了windows的linux子系统功能，自行配置了systemd，发现步骤较为繁琐，恰巧有个大佬写了个自动配置的一键脚本，在这里介绍一下。</p>
@@ -42,7 +83,7 @@
       </categories>
       <tags>
         <tag>wsl</tag>
-        <tag>wiindows</tag>
+        <tag>windows</tag>
       </tags>
   </entry>
   <entry>
@@ -51,14 +92,14 @@
     <content><![CDATA[<h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>这段时间换了一家vps，故需要重新搭建下载站，便有了这篇记录遇到的坑的文章，搭建环境为 Debian 10。</p>
 <a id="more"></a>
 <h2 id="安装File-Browser"><a href="#安装File-Browser" class="headerlink" title="安装File-Browser"></a>安装File-Browser</h2><p>直接通过官方的一键脚本安装</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">curl -fsSL https://filebrowser.org/get.sh | bash</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">curl -fsSL https://raw.githubusercontent.com/filebrowser/get/master/get.sh | bash</span><br></pre></td></tr></table></figure>
 
 <p>安装完成后可以通过下述指令测试是否正常</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">filebrowser -r /path/to/your/files -a 0.0.0.0 -p 8080</span><br></pre></td></tr></table></figure>
 
 <p>此时访问你的<code>IP:8080</code>就能够看到登陆界面了此时用户名和密码都是：admin，cltr+c结束filebrowser。</p>
 <h2 id="配置File-Browser后台运行"><a href="#配置File-Browser后台运行" class="headerlink" title="配置File-Browser后台运行"></a>配置File-Browser后台运行</h2><p>编辑<code>vi /etc/systemd/system/filebrowser.service</code></p>
-<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=File Browser</span><br><span class="line">Documentation=https://filebrowser.xyz</span><br><span class="line">After=network-online.target</span><br><span class="line">Wants=network-online.target systemd-networkd-wait-online.service</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Restart=on-abnormal</span><br><span class="line"></span><br><span class="line">User=fengz</span><br><span class="line">Group=fengz</span><br><span class="line"></span><br><span class="line">WorkingDirectory=/home/fengz/</span><br><span class="line"></span><br><span class="line">ExecStart=/usr/local/bin/filebrowser -r /home/fengz/Download/</span><br><span class="line">ExecReload=/bin/kill -USR1 $MAINPID</span><br><span class="line"></span><br><span class="line">KillMode=mixed</span><br><span class="line">KillSignal=SIGQUIT</span><br><span class="line">TimeoutStopSec=5s</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=File Browser</span><br><span class="line">Documentation=https://filebrowser.org</span><br><span class="line">After=network-online.target</span><br><span class="line">Wants=network-online.target systemd-networkd-wait-online.service</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Restart=on-abnormal</span><br><span class="line"></span><br><span class="line">User=fengz</span><br><span class="line">Group=fengz</span><br><span class="line"></span><br><span class="line">WorkingDirectory=/home/fengz/</span><br><span class="line"></span><br><span class="line">ExecStart=/usr/local/bin/filebrowser -r /home/fengz/Download/</span><br><span class="line">ExecReload=/bin/kill -USR1 $MAINPID</span><br><span class="line"></span><br><span class="line">KillMode=mixed</span><br><span class="line">KillSignal=SIGQUIT</span><br><span class="line">TimeoutStopSec=5s</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
 
 <p>上述service文件修改自caddy v1的caddy.service文件。</p>
 <p>保存后执行下述指令，使其可以开机自启并在后台运行</p>
