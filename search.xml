@@ -179,9 +179,9 @@
         <category>linux相关</category>
       </categories>
       <tags>
-        <tag>File Browser</tag>
-        <tag>linux</tag>
         <tag>aria2</tag>
+        <tag>linux</tag>
+        <tag>File Browser</tag>
       </tags>
   </entry>
   <entry>
@@ -235,7 +235,7 @@
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sed -i <span class="string">&#x27;/nohup filebrowser -d \/etc\/filebrowser.db &gt;\/dev\/null 2&gt;&amp;1 &amp;/d&#x27;</span> /etc/rc.local</span><br></pre></td></tr></table></figure>
 
 <h4 id="systemd-大法："><a href="#systemd-大法：" class="headerlink" title="systemd 大法："></a>systemd 大法：</h4><p>首先下载 File Browser 的 service 文件：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">curl https://raw.githubusercontent.com/zhfe981206/filebrowser/master/filebrowser.service -O /lib/systemd/system/filebrowser.service</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">curl https://raw.githubusercontent.com/ovo-ukiyo/filebrowser_service/main/filebrowser.service -O /lib/systemd/system/filebrowser.service</span><br></pre></td></tr></table></figure>
 
 <p>如果你的运行命令不是</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">/usr/<span class="built_in">local</span>/bin/filebrowser -d /etc/filebrowser.db</span><br></pre></td></tr></table></figure>
@@ -275,8 +275,8 @@
         <category>linux相关</category>
       </categories>
       <tags>
-        <tag>File Browser</tag>
         <tag>linux</tag>
+        <tag>File Browser</tag>
       </tags>
   </entry>
   <entry>
@@ -307,8 +307,8 @@
         <category>linux相关</category>
       </categories>
       <tags>
-        <tag>linux</tag>
         <tag>aria2</tag>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -346,8 +346,8 @@
         <category>linux相关</category>
       </categories>
       <tags>
-        <tag>linux</tag>
         <tag>aria2</tag>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
