@@ -5,7 +5,7 @@
     <url>/post/38835/</url>
     <content><![CDATA[<h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>IPv6设计之初由于地址资源相较IPv4有极大地增多，因此并未考虑NAT(网络地址转换)，但由于部分学校的校园网只分发了一个/128的IPv6地址，导致路由器下设备无法使用IPv6。</p>
 <p>本篇教程参考自网络，非原创，部分内容来自HEU贴吧。</p>
-<a id="more"></a>
+<span id="more"></span>
 <h2 id="硬件要求"><a href="#硬件要求" class="headerlink" title="硬件要求"></a>硬件要求</h2><ul>
 <li>校园网已开通</li>
 <li>可刷h大版Padavan的路由器(斐讯k2p测试通过)</li>
@@ -45,7 +45,7 @@
     <title>wsl2配置启用systemd一键脚本</title>
     <url>/post/9214/</url>
     <content><![CDATA[<h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>这段时间尝试使用了windows的linux子系统功能，自行配置了systemd，发现步骤较为繁琐，恰巧有个大佬写了个自动配置的一键脚本，在这里介绍一下。</p>
-<a id="more"></a>
+<span id="more"></span>
 
 <h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>wsl2 kali-linux</p>
 <h2 id="使用提示"><a href="#使用提示" class="headerlink" title="使用提示"></a>使用提示</h2><p>该脚本仅限于wsl2，请勿在其他环境中使用。<br>经个人测试，可以正常使用。<br>详细注意事项请参见<a href="https://github.com/Warrenes/script-for-kali-wsl2">大佬</a>的项目地址。</p>
@@ -90,7 +90,7 @@
     <title>记一次搭建aria2+ariang+filebrowser的过程</title>
     <url>/post/57175/</url>
     <content><![CDATA[<h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>这段时间换了一家vps，故需要重新搭建下载站，便有了这篇记录遇到的坑的文章，搭建环境为 Debian 10。</p>
-<a id="more"></a>
+<span id="more"></span>
 <h2 id="安装File-Browser"><a href="#安装File-Browser" class="headerlink" title="安装File-Browser"></a>安装File-Browser</h2><p>直接通过官方的一键脚本安装</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">curl -fsSL https://raw.githubusercontent.com/filebrowser/get/master/get.sh | bash</span><br></pre></td></tr></table></figure>
 
@@ -179,9 +179,9 @@
         <category>linux相关</category>
       </categories>
       <tags>
-        <tag>File Browser</tag>
-        <tag>linux</tag>
         <tag>aria2</tag>
+        <tag>linux</tag>
+        <tag>File Browser</tag>
       </tags>
   </entry>
   <entry>
@@ -189,7 +189,7 @@
     <url>/post/35356/</url>
     <content><![CDATA[<p><img data-src="https://i.loli.net/2019/12/31/CkgUEKOvH1Wulfp.png" alt="File-Browser.png"></p>
 <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>File Browser 是一个基于 Web 的文件管理器。它可以使你随时随地的对某一目录下设备的文件进行基本的管理操作，如：创建、删除、移动、复制等。同时它还支持多个用户的管理，而且每个用户可以拥有自己可以访问的文件和权限等十分丰富的特性。</p>
-<a id="more"></a>
+<span id="more"></span>
 <h2 id="安装及配置"><a href="#安装及配置" class="headerlink" title="安装及配置"></a>安装及配置</h2><p>File Browser 适用于全平台，任何操作系统都可以安装它，当然，我会以 Linux 为主。</p>
 <p>File Browser 在 Linux 的安装非常简单，只需要一条命令就可以搞定：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">curl -fsSL https://raw.githubusercontent.com/filebrowser/get/master/get.sh | bash</span><br></pre></td></tr></table></figure>
@@ -275,8 +275,8 @@
         <category>linux相关</category>
       </categories>
       <tags>
-        <tag>File Browser</tag>
         <tag>linux</tag>
+        <tag>File Browser</tag>
       </tags>
   </entry>
   <entry>
@@ -284,7 +284,7 @@
     <url>/post/55765/</url>
     <content><![CDATA[<h3 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h3><p>在安装aria2的过程中，在github上发现了一个一键安装管理脚本，感觉蛮好用的分享一下</p>
 <h3 id="系统要求"><a href="#系统要求" class="headerlink" title="系统要求"></a>系统要求</h3><p>CentOS 6+ / Debian 6+ /Ubuntu 14.04+</p>
-<a id="more"></a>
+<span id="more"></span>
 <h3 id="下载安装"><a href="#下载安装" class="headerlink" title="下载安装"></a>下载安装</h3><p>执行下面代码下载并运行脚本，出现脚本操作菜单输入 <strong>1</strong> 开始安装</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">wget -N https://git.io/aria2.sh &amp;&amp; chmod +x aria2.sh &amp;&amp; bash aria2.sh</span><br></pre></td></tr></table></figure>
 
@@ -307,8 +307,8 @@
         <category>linux相关</category>
       </categories>
       <tags>
-        <tag>linux</tag>
         <tag>aria2</tag>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -318,7 +318,7 @@
 <p>脚本内置的yaaw管理面板如果觉得不好用的话可以自行更换。</p>
 <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a><strong>简介</strong></h2><p>aria2是一个轻量级的多协议和多源命令行 下载工具。它支持HTTP / HTTPS，FTP，SFTP， BitTorrent和Metalink。aria2可以通过内置的 JSON-RPC和XML-RPC接口进行操作。</p>
 <p>YAAW则是一个管理aria2的WEB接口，两者结合轻松实现离线下载，为了简化流程，写了一个一键脚本，方便部署。</p>
-<a id="more"></a>
+<span id="more"></span>
 <h2 id="功能"><a href="#功能" class="headerlink" title="功能"></a><strong>功能</strong></h2><ul>
 <li>支持多种不同Linux系统</li>
 <li>一键安装Aria2 + Caddy + YAAW</li>
@@ -346,15 +346,15 @@
         <category>linux相关</category>
       </categories>
       <tags>
-        <tag>linux</tag>
         <tag>aria2</tag>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
     <title>Hello World</title>
     <url>/post/16107/</url>
     <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<a id="more"></a>
+<span id="more"></span>
 <h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
 
 <p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
